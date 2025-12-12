@@ -1,0 +1,21 @@
+version: "3"
+services:
+  configuration_server:
+    container_name: configuration-service
+    hostname: localhost
+    image: configuration-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    privileged: true
