@@ -1,24 +1,25 @@
 version: "3"
 services:
-  configuration_service:
+  configuration-service:
     container_name: configuration-service
     build:
       context: ./services/configuration-service
       dockerfile: Dockerfile
-    hostname: localhost
-    image: configuration-service:0.0.4
+    image: configuration-service:0.0.7
     ports:
       - "8080:8080"
     depends_on:
       - postgres
+      - policy-service
+    environment:
+      - policy.service.url=http://policy-service:8080
 
-  policy_service:
+  policy-service:
     container_name: policy-service
     build:
       context: ./services/policy-service
       dockerfile: Dockerfile
-    hostname: localhost
-    image: policy-service:0.0.1
+    image: policy-service:0.0.4
     ports:
       - "8081:8080"
     depends_on:

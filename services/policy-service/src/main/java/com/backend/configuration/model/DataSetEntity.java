@@ -26,7 +26,7 @@ public class DataSetEntity {
     // store resolved DataType payloads (embedded) as part of the dataset policy
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "dataset_policy", joinColumns = @JoinColumn(name = "dataset_id"))
-    private List<DataTypeEmbeddable> policy = new ArrayList<DataTypeEmbeddable>();
+    private List<DataTypeEmbeddable> policy = new ArrayList<>();
 
     public DataSetEntity() {
     }

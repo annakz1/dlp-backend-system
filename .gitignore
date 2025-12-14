@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 /core-models/target/
 /services/configuration-service/target/
+/services/policy-service/target/
 
 ### Eclipse ###
 .apt_generated

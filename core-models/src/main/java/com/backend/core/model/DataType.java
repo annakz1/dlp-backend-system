@@ -6,12 +6,12 @@ import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
  *  Used to define what kind of content should be scanned for.
  */
+// TODO add doc + constructors
 public class DataType {
 
     public enum Type {
@@ -32,7 +32,6 @@ public class DataType {
     private List<String> content;
 
     private Double threshold;
-
 
 
     public UUID getId() {

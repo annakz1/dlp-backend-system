@@ -33,15 +33,8 @@ public class DataSet {
     private List<DataType> policy;
 
     public DataSet() {
-        this.id = UUID.randomUUID();
+        // Do not auto-generate id here: when a client POSTs a create request Jackson should leave id null
         this.policy = new ArrayList<>();
-    }
-
-    public DataSet(UUID id, UUID tenantId, String name, List<DataType> policy) {
-        this.id = id == null ? UUID.randomUUID() : id;
-        this.tenantId = tenantId;
-        this.name = name;
-        this.policy = policy == null ? new ArrayList<>() : new ArrayList<>(policy);
     }
 
     public UUID getId() {
@@ -49,7 +42,7 @@ public class DataSet {
     }
 
     public void setId(UUID id) {
-        this.id = id == null ? UUID.randomUUID() : id;
+        this.id = id;
     }
 
     public UUID getTenantId() {

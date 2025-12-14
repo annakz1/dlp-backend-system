@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/customer/datasets")
+@RequestMapping("/api/policies")
 public class DataSetController {
 
     @Autowired

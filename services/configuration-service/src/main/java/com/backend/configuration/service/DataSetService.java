@@ -1,7 +1,6 @@
 package com.backend.configuration.service;
 
 import com.backend.configuration.model.DataTypeEntity;
-import com.backend.configuration.repo.DataSetRepository;
 import com.backend.configuration.repo.DataTypeRepository;
 import com.backend.core.model.DataSet;
 import com.backend.core.model.DataType;
@@ -17,10 +16,7 @@ import java.util.UUID;
 public class DataSetService {
 
     @Autowired
-    private DataSetRepository dataSetRepository;
-
-    @Autowired
-    private PolicyServiceClient policyServiceClient; // placeholder client to call Policy Service
+    private PolicyServiceClient policyServiceClient;
 
     @Autowired
     private DataTypeService dataTypeService;
@@ -59,10 +55,10 @@ public class DataSetService {
         policyServiceClient.deleteDataset(id);
     }
 
-    // Helper: load DataTypeEntity definitions for each provided DataType id and populate DTO.policy
+    // Override the existing DS (fetching all NEW content from DB)
     private DataSet enrichWithDataTypeDefinitions(DataSet dto) {
         DataSet copy = new DataSet();
-        if (dto.getId() != null) copy.setId(dto.getId());
+        // ID intentionally not copied from DTO: IDs are generated internally by the policy service
         copy.setTenantId(dto.getTenantId());
         copy.setName(dto.getName());
 
@@ -74,7 +70,6 @@ public class DataSetService {
                 Optional<DataTypeEntity> dataTypeFromDB = dataTypeRepository.findById(dtId);
                 if (dataTypeFromDB.isEmpty())
                     throw new IllegalArgumentException("Referenced DataType not found: " + dtId);
-                // TODO enrich payload,: should we override the DataType fields with DB values?
                 DataType enrichedDataType = dataTypeService.toDto(dataTypeFromDB.get());
                 enrichedPolicy.add(enrichedDataType);
             }
