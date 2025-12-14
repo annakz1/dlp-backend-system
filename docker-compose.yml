@@ -12,6 +12,18 @@ services:
     depends_on:
       - postgres
 
+  policy_service:
+    container_name: policy-service
+    build:
+      context: ./services/policy-service
+      dockerfile: Dockerfile
+    hostname: localhost
+    image: policy-service:0.0.1
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+
   postgres:
     container_name: postgres
     image: postgres
