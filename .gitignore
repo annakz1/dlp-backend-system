@@ -5,6 +5,7 @@ out/
 /core-models/target/
 /services/configuration-service/target/
 /services/policy-service/target/
+/services/scanner-service/target/
 
 ### Eclipse ###
 .apt_generated
