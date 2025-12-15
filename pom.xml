@@ -106,12 +106,6 @@
 			<version>1.19.3</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.backend</groupId>
-			<artifactId>core-models</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
 	</dependencies>
 
 	<build>
