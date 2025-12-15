@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DLP Backend - API Docs</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 40px; }
+    h1 { color: #2b5797; }
+    .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; margin-bottom: 12px; }
+    a.inline { color: #1a73e8; }
+    pre { background: #f6f8fa; padding: 12px; border-radius: 6px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <h1>DLP Backend - API Documentation</h1>
+  <p>Quick links to the per-service OpenAPI specs and Swagger UI pages (served statically from each service's <code>doc/</code> folder):</p>
+
+  <div class="card">
+    <h2>Configuration Service</h2>
+    <p>Spec: <a class="inline" href="../services/configuration-service/doc/openapi.yaml">openapi.yaml</a></p>
+    <p>Swagger UI: <a class="inline" href="../services/configuration-service/doc/swagger-ui.html">swagger-ui.html</a></p>
+    <p>Run example: create a DataType</p>
+    <pre>curl -X POST "http://localhost:8080/api/datatypes" -H "Content-Type: application/json" -d '{"name":"Sensitive Keywords","type":"KEYWORDS","content":["password","secret"]}'</pre>
+  </div>
+
+  <div class="card">
+    <h2>Policy Service</h2>
+    <p>Spec: <a class="inline" href="../services/policy-service/doc/openapi.yaml">openapi.yaml</a></p>
+    <p>Swagger UI: <a class="inline" href="../services/policy-service/doc/swagger-ui.html">swagger-ui.html</a></p>
+    <p>Run example: list datasets for a tenant</p>
+    <pre>curl "http://localhost:8081/api/policies/tenant/3fa85f64-5717-4562-b3fc-2c963f66afa6"</pre>
+  </div>
+
+  <div class="card">
+    <h2>Scanner Service</h2>
+    <p>Spec: <a class="inline" href="../services/scanner-service/doc/openapi.yaml">openapi.yaml</a></p>
+    <p>Swagger UI: <a class="inline" href="../services/scanner-service/doc/swagger-ui.html">swagger-ui.html</a></p>
+    <p>Run example: trigger a scan</p>
+    <pre>curl -X POST "http://localhost:8082/api/scans" -H "Content-Type: application/json" -d '{"tenantId":"3fa85f64-5717-4562-b3fc-2c963f66afa6","dsId":"<DATASET_UUID>","input":"some text"}'</pre>
+  </div>
+
+  <p>Notes:</p>
+  <ul>
+    <li>To preview the Swagger UI pages directly, serve the files from the service's doc folder. For example: <code>python -m http.server 8083 --directory services/configuration-service/doc</code> and open <code>http://localhost:8083/swagger-ui.html</code>.</li>
+    <li>When running services in Docker Compose the doc files are available inside the container at <code>/app/doc</code> (if you copy them there). Alternatively, serve them locally as shown above.</li>
+  </ul>
+</body>
+</html>

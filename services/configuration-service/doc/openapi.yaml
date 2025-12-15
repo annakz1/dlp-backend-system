@@ -1,0 +1,191 @@
+openapi: 3.0.3
+info:
+  title: Configuration Service API
+  version: 1.0.0
+  description: API for managing DataTypes and DataSets (Configuration Service)
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/datatypes:
+    get:
+      summary: List all DataTypes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataType'
+    post:
+      summary: Create a new DataType
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '400':
+          description: Validation error
+  /api/datatypes/{id}:
+    get:
+      summary: Get a DataType by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+        '404':
+          description: Not found
+    put:
+      summary: Update DataType
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataType'
+    delete:
+      summary: Delete DataType
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Deleted
+
+  /api/datasets:
+    post:
+      summary: Create a DataSet (delegates to Policy Service)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataSet'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSet'
+  /api/datasets/{id}:
+    get:
+      summary: Get DataSet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSet'
+    put:
+      summary: Update DataSet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataSet'
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete DataSet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Deleted
+components:
+  schemas:
+    DataType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: [KEYWORDS]
+        content:
+          type: array
+          items:
+            type: string
+        threshold:
+          type: number
+    DataSet:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        policy:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataType'
+

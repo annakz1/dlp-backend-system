@@ -1,0 +1,148 @@
+openapi: 3.0.3
+info:
+  title: Policy Service API
+  version: 1.0.0
+  description: API for managing Data Sets / internal endpoints for DataType notifications
+servers:
+  - url: http://localhost:8081
+paths:
+  /api/policies:
+    post:
+      summary: Create a DataSet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataSet'
+      responses:
+        '201':
+          description: Created
+  /api/policies/tenant/{tenantId}:
+    get:
+      summary: List DataSets by tenant
+      parameters:
+        - name: tenantId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataSet'
+  /api/policies/{id}:
+    get:
+      summary: Get DataSet by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataSet'
+    put:
+      summary: Update DataSet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataSet'
+      responses:
+        '200':
+          description: Updated
+    delete:
+      summary: Delete DataSet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Deleted
+  /internal/policies/datatype-updated:
+    post:
+      summary: "Internal: notify the policy service that a DataType has been updated"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataType'
+      responses:
+        '200':
+          description: OK
+  /internal/policies/datatype-deleted/{id}:
+    post:
+      summary: "Internal: notify the policy service that a DataType has been deleted"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    DataType:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: [KEYWORDS]
+        content:
+          type: array
+          items:
+            type: string
+        threshold:
+          type: number
+    DataSet:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        policy:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataType'
+

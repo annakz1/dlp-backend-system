@@ -5,7 +5,7 @@ services:
     build:
       context: ./services/configuration-service
       dockerfile: Dockerfile
-    image: configuration-service:0.0.6
+    image: configuration-service:0.0.1
     ports:
       - "8080:8080"
     depends_on:
@@ -19,7 +19,7 @@ services:
     build:
       context: ./services/policy-service
       dockerfile: Dockerfile
-    image: policy-service:0.0.5
+    image: policy-service:0.0.1
     ports:
       - "8081:8080"
     depends_on:
@@ -30,7 +30,7 @@ services:
     build:
       context: ./services/scanner-service
       dockerfile: Dockerfile
-    image: scanner-service:0.0.3
+    image: scanner-service:0.0.1
     ports:
       - "8082:8080"
     depends_on:
