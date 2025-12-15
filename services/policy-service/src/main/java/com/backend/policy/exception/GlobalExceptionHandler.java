@@ -1,4 +1,4 @@
-package com.backend.configuration.exception;
+package com.backend.policy.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

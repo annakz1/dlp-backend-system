@@ -9,11 +9,24 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- *  Used to define what kind of content should be scanned for.
+ * Used to define what kind of content should be scanned for.
+ *
+ * <p>Fields:
+ * <ul>
+ *   <li>id - UUID (generated internally)</li>
+ *   <li>name - short human-readable name (required)</li>
+ *   <li>description - optional longer description</li>
+ *   <li>type - data type kind (enum). Current supported value: {@link Type#KEYWORDS}</li>
+ *   <li>content - payload that describes the type behavior. For KEYWORDS this is a list
+ *       of literal keyword phrases to match (at least one element is required)</li>
+ *   <li>threshold - numeric threshold that controls how many matches are required
+ *       for this DataType to be considered matched (defaults to 0.0)</li>
+ * </ul>
+
  */
-// TODO add doc + constructors
 public class DataType {
 
+    /** Supported DataType kinds. Currently only KEYWORDS is implemented. */
     public enum Type {
         KEYWORDS
     }
@@ -32,6 +45,26 @@ public class DataType {
     private List<String> content;
 
     private Double threshold;
+
+    // Constructors
+    public DataType() {
+        // defaults
+        this.type = Type.KEYWORDS;
+        this.content = new ArrayList<>();
+        this.threshold = 0.0;
+    }
+
+    /**
+     * Convenience constructor for tests and code that builds models programmatically.
+     */
+    public DataType(UUID id, String name, String description, Type type, List<String> content, Double threshold) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.type = type == null ? Type.KEYWORDS : type;
+        this.content = content == null ? new ArrayList<>() : new ArrayList<>(content);
+        this.threshold = threshold == null ? 0.0 : threshold;
+    }
 
 
     public UUID getId() {

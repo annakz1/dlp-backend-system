@@ -1,7 +1,7 @@
-package com.backend.configuration.controller;
+package com.backend.policy.controller;
 
-import com.backend.configuration.service.DataSetService;
 import com.backend.core.model.DataSet;
+import com.backend.policy.service.DataSetService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
-package com.backend.configuration.repo;
+package com.backend.policy.repo;
 
-import com.backend.configuration.model.DataSetEntity;
+import com.backend.policy.model.DataSetEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,13 +1,13 @@
-package com.backend.configuration;
+package com.backend.scanner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PolicyServiceApplication {
+public class ScannerServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PolicyServiceApplication.class, args);
+		SpringApplication.run(ScannerServiceApplication.class, args);
 	}
 
 }

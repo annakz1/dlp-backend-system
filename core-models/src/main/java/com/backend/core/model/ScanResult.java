@@ -44,11 +44,10 @@ public class ScanResult {
     private List<UUID> foundDataTypes = new ArrayList<>();
 
     public ScanResult() {
-        this.id = UUID.randomUUID();
     }
 
     public ScanResult(UUID id, UUID tenantId, String rawScanResult, ScanPrediction scanPrediction, List<UUID> foundDataTypes) {
-        this.id = id == null ? UUID.randomUUID() : id;
+        this.id = id;
         this.tenantId = tenantId;
         this.rawScanResult = rawScanResult;
         this.scanPrediction = scanPrediction;

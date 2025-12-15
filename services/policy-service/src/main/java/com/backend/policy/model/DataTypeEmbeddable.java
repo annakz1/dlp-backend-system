@@ -1,7 +1,8 @@
-package com.backend.configuration.model;
+package com.backend.policy.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+
 import java.util.UUID;
 
 @Embeddable

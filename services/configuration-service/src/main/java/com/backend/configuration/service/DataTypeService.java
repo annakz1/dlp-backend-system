@@ -5,8 +5,8 @@ import com.backend.configuration.repo.DataTypeRepository;
 import com.backend.core.model.DataType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +17,9 @@ public class DataTypeService {
 
     @Autowired
     private DataTypeRepository dataTypeRepository;
+
+    @Autowired
+    private PolicyServiceClient policyServiceClient;
 
     public DataType create(DataType dto) {
         if (dto == null) throw new IllegalArgumentException("DataType cannot be null");
@@ -48,11 +51,28 @@ public class DataTypeService {
         entity.setThreshold(dto.getThreshold());
         entity.setType(DataTypeEntity.Type.KEYWORDS);
         DataTypeEntity saved = dataTypeRepository.save(entity);
-        return toDto(saved);
+
+        DataType updatedDto = toDto(saved);
+        // notify policy service about this change (best-effort)
+        try {
+            policyServiceClient.notifyDataTypeUpdated(updatedDto);
+        } catch (Exception ex) {
+            // log and continue; failure to notify shouldn't block the update
+            System.err.println("Failed to notify Policy Service about DataType update: " + ex.getMessage());
+        }
+
+        return updatedDto;
     }
 
     public void delete(UUID id) {
+        // delete locally
         dataTypeRepository.deleteById(id);
+        // notify policy service to remove references (best-effort)
+        try {
+            policyServiceClient.notifyDataTypeDeleted(id);
+        } catch (Exception ex) {
+            System.err.println("Failed to notify Policy Service about DataType deletion: " + ex.getMessage());
+        }
     }
 
     // Mapping helpers

@@ -1,9 +1,11 @@
 package com.backend.configuration.service;
 
 import com.backend.core.model.DataSet;
+import com.backend.core.model.DataType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
 import java.util.Optional;
@@ -115,6 +116,41 @@ public class PolicyServiceClient {
             throw new RuntimeException(msg, ex);
         } catch (RestClientException ex) {
             String msg = "Failed to call Policy Service delete: " + ex.getMessage();
+            log.error(msg, ex);
+            throw new RuntimeException(msg, ex);
+        }
+    }
+
+    // Notification endpoints for DataType changes
+    public void notifyDataTypeUpdated(DataType dt) {
+        String url = baseUrl + "/internal/policies/datatype-updated";
+        try {
+            log.debug("Notifying Policy Service DATA TYPE UPDATED {} payload={}", url, dt);
+            restTemplate.postForObject(url, dt, String.class);
+        } catch (HttpStatusCodeException ex) {
+            String body = ex.getResponseBodyAsString();
+            String msg = String.format("Failed to notify Policy Service datatype-updated: status=%s body=%s", ex.getStatusCode(), body);
+            log.error(msg, ex);
+            throw new RuntimeException(msg, ex);
+        } catch (RestClientException ex) {
+            String msg = "Failed to notify Policy Service datatype-updated: " + ex.getMessage();
+            log.error(msg, ex);
+            throw new RuntimeException(msg, ex);
+        }
+    }
+
+    public void notifyDataTypeDeleted(UUID id) {
+        String url = baseUrl + "/internal/policies/datatype-deleted/" + id;
+        try {
+            log.debug("Notifying Policy Service DATA TYPE DELETED {} id={}", url, id);
+            restTemplate.postForObject(url, null, String.class);
+        } catch (HttpStatusCodeException ex) {
+            String body = ex.getResponseBodyAsString();
+            String msg = String.format("Failed to notify Policy Service datatype-deleted: status=%s body=%s", ex.getStatusCode(), body);
+            log.error(msg, ex);
+            throw new RuntimeException(msg, ex);
+        } catch (RestClientException ex) {
+            String msg = "Failed to notify Policy Service datatype-deleted: " + ex.getMessage();
             log.error(msg, ex);
             throw new RuntimeException(msg, ex);
         }

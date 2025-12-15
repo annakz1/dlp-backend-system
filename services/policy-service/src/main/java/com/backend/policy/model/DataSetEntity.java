@@ -1,4 +1,4 @@
-package com.backend.configuration.model;
+package com.backend.policy.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
