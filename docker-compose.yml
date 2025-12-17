@@ -3,8 +3,8 @@ services:
   configuration-service:
     container_name: configuration-service
     build:
-      context: ./services/configuration-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/configuration-service/Dockerfile
     image: configuration-service:0.0.1
     ports:
       - "8080:8080"
@@ -17,8 +17,8 @@ services:
   policy-service:
     container_name: policy-service
     build:
-      context: ./services/policy-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/policy-service/Dockerfile
     image: policy-service:0.0.1
     ports:
       - "8081:8080"
@@ -28,8 +28,8 @@ services:
   scanner-service:
     container_name: scanner-service
     build:
-      context: ./services/scanner-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: services/scanner-service/Dockerfile
     image: scanner-service:0.0.1
     ports:
       - "8082:8080"
